@@ -14693,10 +14693,17 @@ max_depth=3 has the best performance - testing performance is comparable good an
 At the very beginning "train_test_split" is used to save 20% data for the final evaluation.
 Inside the fit-model the training set is split again into train and validation for the grid search.</p>
 <p>In the implementation there is a "shuffleSplit" used - unfortunately without further explanation of the idea behind it and without a comparision to the k-Fold-technique explained a view lessons ago.</p>
-<p>We would have to use k-Fold specially if we a short in training/validation data. To make best use of limited data:</p>
+<p>K-Fold:
+We would have to use k-Fold specially if we a short in training/validation data to make best use of limited data:</p>
 <p>First we ensure that we have saved test data, which have been never used for training for the final performance analysis. The rest is used as base for k-fold.</p>
-<p>k-fold distributed the data into n folds f1, ...,fn. For the coming training/validation session we combine them to n different training/validation data sets: for run-1 f1 is for validation, f2-fn for training, for run-2 f2 is for validation, the other n-1 folds are for training. For each parameter combination grid search runs all n training/validation sessions, and take the mean of the performance as score for this parameter combination. This was it makes a very good use out of the available data.</p>
-<p>In the project I'm missing the explanation why we do not use kfold-split, but shuffle split, which generates randomly the requested number of train/validation-data sets. Would you mind to explain, and to provide an example how to pass a kfold-cv-set to GridSearchCV?</p>
+<p>k-fold distributed the data into n folds f1, ...,fn. For the coming training/validation session we combine them to n different training/validation data sets: for run-1 f1 is for validation, f2-fn for training, for run-2 f2 is for validation, the other n-1 folds are for training. For each parameter combination grid search runs all n training/validation sessions, and take the mean of the performance as score for this parameter combination. This makes a very good use out of the available data.</p>
+<p>Impact to Cross-Validation:</p>
+<ul>
+<li>k-fold ensures that we have used each sample exactly once for validation and k-1 times for training, and we have k data sets for the procedure. Searching the best parameter by k runs and take the mean of the results gives some more stability to the final result.</li>
+<li>shuffle split prepares as well several sets of training/validation sets, but it chooses the samples randomly and independant for each step. It is not guarnanteed that each data sample is used once for validation. With this case we run the experiments as well several times and take the mean as final result - more stability for the result as well. We are not sure that we use the test data as optimal as in k-fold.</li>
+<li>if use just one training/validation-distribution there are some data samples we will have never used for training, the information contained in this data is just given away. </li>
+</ul>
+<p>In the project I'm missing the explanation why we do not use kfold-split, but shuffle split. Would you mind to explain, and to provide an example how to pass a kfold-cv-set to GridSearchCV?</p>
 
 </div>
 </div>
