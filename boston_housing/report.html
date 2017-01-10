@@ -11851,11 +11851,12 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="prompt input_prompt">In&nbsp;[26]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># TODO: Minimum price of the data</span>
 <span class="n">minimum_price</span> <span class="o">=</span> <span class="n">prices</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
+
 
 <span class="c1"># TODO: Maximum price of the data</span>
 <span class="n">maximum_price</span> <span class="o">=</span> <span class="n">prices</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
@@ -11867,15 +11868,24 @@ div#notebook {
 <span class="n">median_price</span> <span class="o">=</span> <span class="n">prices</span><span class="o">.</span><span class="n">median</span><span class="p">()</span>
 
 <span class="c1"># TODO: Standard deviation of prices of the data</span>
-<span class="n">std_price</span> <span class="o">=</span> <span class="n">prices</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
+<span class="n">std_price</span> <span class="o">=</span> <span class="n">prices</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">ddof</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
 
 <span class="c1"># Show the calculated statistics</span>
 <span class="k">print</span> <span class="s2">&quot;Statistics for Boston housing dataset:</span><span class="se">\n</span><span class="s2">&quot;</span>
+<span class="k">print</span> <span class="s2">&quot;pandas:&quot;</span>
 <span class="k">print</span> <span class="s2">&quot;Minimum price: ${:,.2f}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">minimum_price</span><span class="p">)</span>
 <span class="k">print</span> <span class="s2">&quot;Maximum price: ${:,.2f}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">maximum_price</span><span class="p">)</span>
 <span class="k">print</span> <span class="s2">&quot;Mean price: ${:,.2f}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">mean_price</span><span class="p">)</span>
 <span class="k">print</span> <span class="s2">&quot;Median price ${:,.2f}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">median_price</span><span class="p">)</span>
 <span class="k">print</span> <span class="s2">&quot;Standard deviation of prices: ${:,.2f}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">std_price</span><span class="p">)</span>
+
+<span class="k">print</span> <span class="s2">&quot;numpy:&quot;</span>
+<span class="k">print</span> <span class="s2">&quot;Minimum price: ${:,.2f}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">prices</span><span class="p">))</span>
+<span class="k">print</span> <span class="s2">&quot;Maximum price: ${:,.2f}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">prices</span><span class="p">))</span>
+<span class="k">print</span> <span class="s2">&quot;Mean price: ${:,.2f}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">prices</span><span class="p">))</span>
+<span class="k">print</span> <span class="s2">&quot;Median price ${:,.2f}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">prices</span><span class="p">))</span>
+<span class="k">print</span> <span class="s2">&quot;Standard deviation of prices: ${:,.2f}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">prices</span><span class="p">))</span>
 </pre></div>
 
 </div>
@@ -11890,11 +11900,18 @@ div#notebook {
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>Statistics for Boston housing dataset:
 
+pandas:
 Minimum price: $105,000.00
 Maximum price: $1,024,800.00
 Mean price: $454,342.94
 Median price $438,900.00
-Standard deviation of prices: $165,340.28
+Standard deviation of prices: $165,171.13
+numpy:
+Minimum price: $105,000.00
+Maximum price: $1,024,800.00
+Mean price: $454,342.94
+Median price $438,900.00
+Standard deviation of prices: $165,171.13
 </pre>
 </div>
 </div>
@@ -13814,7 +13831,15 @@ According to the graphs max_depth=3 is the model with best performance: training
 <p>max_depth=10 is a typical overfitting: training points are "perfect", but testing point curve stays on a low level. 
 max_depth=6 is similiar, but not yet that extrem.</p>
 <p>max_depth=1 is underfitting: training and testing curve are convergent, but on a low level.</p>
-<p>Further test data will not increase the quality of the model - all 4 graph show a "stable" state.</p>
+<p>Further test data will not increase the quality of the model - all 4 graph show a "stable" state.:</p>
+<p>Max_Depth=1:</p>
+<p>Training: steep fall from 1.0 to 0.55 between 0 and 50 samples, degree of falling decreasing between 50 ans 300 samples, and then a plateau is reached at ca. 0.5</p>
+<p>Test: steep rise from 0.0 to a little more then 0.4 between 0 and 50 samples, then degree of rising slows down an reached a plateau around 250 samples/ca 0.45 - maybe with more samples the preformance would even slightly decrease. Anyhow, test and training curves are nicely mirrored and up near together a low score. Plateau is reached around 300 samples.</p>
+<p>Ending up at the same plateau shows little variance, but little final perfomance shows high bias.</p>
+<p>Max_Depth=3:</p>
+<p>similiar picture as Max_depth=1: first training starts with strong decrease, then the fall gets less steep and ends up in a plateau - test start with a  strong increase to end up at around the same plateau as training. Both of them end up at the same plateau, what indicates that the variance is low. Plateau is reached around 300 samples</p>
+<p>Max_Depth=6/10:</p>
+<p>with increasing max_depth the training curve stays nearer to 1.0 and decreases less. The testing curves start fast until 50 samples, then they increase only slowly until around 200 samples, and then they start to decrease slightly, as well as the performance gap between training and test curve.</p>
 
 </div>
 </div>
@@ -14667,10 +14692,11 @@ max_depth=3 has the best performance - testing performance is comparable good an
 <h3> Q8 - Answer: </h3><p>In our implementation we split 2 times:
 At the very beginning "train_test_split" is used to save 20% data for the final evaluation.
 Inside the fit-model the training set is split again into train and validation for the grid search.</p>
-<p>In the implementation there is a "shuffleSplit" used, some lessons ago "kFold" was presented. According to documentation the difference seems to be:</p>
-<p>kFold: Split dataset into k consecutive folds (without shuffling by default). Each fold is then used once as a validation while the k - 1 remaining folds form the training set</p>
-<p>shuffleSplit:Random permutation cross-validator</p>
-<p>I understand that kFold has a well defined algorithm ot generate k different train/validation-data sets out of the original data, but shuffleSplit generates randomly the requested number of train/validation-data sets.</p>
+<p>In the implementation there is a "shuffleSplit" used - unfortunately without further explanation of the idea behind it and without a comparision to the k-Fold-technique explained a view lessons ago.</p>
+<p>We would have to use k-Fold specially if we a short in training/validation data. To make best use of limited data:</p>
+<p>First we ensure that we have saved test data, which have been never used for training for the final performance analysis. The rest is used as base for k-fold.</p>
+<p>k-fold distributed the data into n folds f1, ...,fn. For the coming training/validation session we combine them to n different training/validation data sets: for run-1 f1 is for validation, f2-fn for training, for run-2 f2 is for validation, the other n-1 folds are for training. For each parameter combination grid search runs all n training/validation sessions, and take the mean of the performance as score for this parameter combination. This was it makes a very good use out of the available data.</p>
+<p>In the project I'm missing the explanation why we do not use kfold-split, but shuffle split, which generates randomly the requested number of train/validation-data sets. Would you mind to explain, and to provide an example how to pass a kfold-cv-set to GridSearchCV?</p>
 
 </div>
 </div>
@@ -14706,7 +14732,7 @@ Inside the fit-model the training set is split again into train and validation f
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[17]:</div>
+<div class="prompt input_prompt">In&nbsp;[27]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># TODO: Import &#39;make_scorer&#39;, &#39;DecisionTreeRegressor&#39;, and &#39;GridSearchCV&#39;</span>
@@ -14727,7 +14753,7 @@ Inside the fit-model the training set is split again into train and validation f
     <span class="n">regressor</span> <span class="o">=</span> <span class="n">DecisionTreeRegressor</span><span class="p">()</span>
 
     <span class="c1"># TODO: Create a dictionary for the parameter &#39;max_depth&#39; with a range from 1 to 10</span>
-    <span class="n">parameters</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;max_depth&#39;</span><span class="p">:</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">10</span><span class="p">))}</span>
+    <span class="n">parameters</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;max_depth&#39;</span><span class="p">:</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">11</span><span class="p">))}</span>
 
     <span class="c1"># TODO: Transform &#39;performance_metric&#39; into a scoring function using &#39;make_scorer&#39; </span>
     <span class="n">scoring_fnc</span> <span class="o">=</span> <span class="n">make_scorer</span><span class="p">(</span><span class="n">performance_metric</span><span class="p">)</span>
@@ -14772,7 +14798,7 @@ Inside the fit-model the training set is split again into train and validation f
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[23]:</div>
+<div class="prompt input_prompt">In&nbsp;[28]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># Fit the training data to the model using grid search</span>
