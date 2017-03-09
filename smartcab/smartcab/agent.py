@@ -24,7 +24,7 @@ class LearningAgent(Agent):
         ###########
         # Set any additional class parameters as needed
         self.initQ = 0.0
-        self.deltaEps = 0.05
+        self.deltaEps = 0.01
         self.epsilon = 1.0
         self.alpha = 0.5
         self.deltaAlpha = 0.01
@@ -48,10 +48,11 @@ class LearningAgent(Agent):
         # Update additional class parameters as needed
         # If 'testing' is True, set epsilon and alpha to 0
         if self.learning:
-#            self.epsilon=self.epsilon-self.deltaEps
-            self.epsilon=1/(self.t*self.t)
-#            self.alpha = self.epsilon
-            self.t+=self.deltaT
+            self.epsilon=self.epsilon-self.deltaEps
+#            self.epsilon=1/(self.t*self.t)
+#            self.epsilon=self.alpha**self.t
+#            self.t+=self.deltaT
+#            print 't:', self.t, ' epsilon:', self.epsilon
             
         
         if testing:
@@ -86,8 +87,6 @@ class LearningAgent(Agent):
 
         if inputs['oncoming'] == None: 
             state=state+', O:'+'None'
- #       elif inputs['oncoming']=='right':
- #           state=state+', O:'+'None'
         else:
             state=state+', O:'+inputs['oncoming']
 
@@ -100,8 +99,6 @@ class LearningAgent(Agent):
 
         if inputs['left'] == None:
             state=state+', L:'+'None'
-#        elif inputs['left']=='right':
-#            state=state+', L:'+'None'
         else:
             state=state+', L:'+inputs['left']
 
@@ -124,9 +121,17 @@ class LearningAgent(Agent):
         # Calculate the maximum Q-value of all actions for a given state
 
         maxQ = None
+        maxA =[]
         helper=self.Q[state]
-        maxAction=max(helper, key=helper.get)
-        maxQ=helper[maxAction]
+        for a, q in helper.iteritems():
+            if maxQ==None or q>maxQ:
+                maxQ=q
+                maxA=[a]
+            elif q == maxQ:
+                maxA.append(a)
+                
+        maxAction= random.choice(maxA)
+            
         print 'get_maxQ:', helper, maxAction, maxQ
         
         return maxQ,maxAction 
@@ -257,7 +262,7 @@ def run():
     if defaultOnly:
         sim = Simulator(env)
     else:
-        sim = Simulator(env, update_delay=0.001, log_metrics=True, optimized=True, display=False)
+        sim = Simulator(env, update_delay=0.001, log_metrics=True, optimized=False, display=False)
     
     ##############
     # Run the simulator
@@ -267,7 +272,7 @@ def run():
     if defaultOnly:
         sim.run()
     else:
-        sim.run(n_test=50)
+        sim.run(n_test=10)
 
 
 if __name__ == '__main__':
